@@ -16,41 +16,109 @@ knitr::opts_chunk$set(
 # clccommunities
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![CRAN status](https://www.r-pkg.org/badges/version/clccommunities)](https://CRAN.R-project.org/package=clccommunities)
 <!-- badges: end -->
 
-The goal of clccommunities is to ...
+The goal of clccommunities is to make it easy to identify postal codes in low income or rural communities. 
 
 ## Installation
 
-You can install the released version of clccommunities from [CRAN](https://CRAN.R-project.org) with:
+You can install the latest version of the `clccommunities` package from [GitHub](https://github.com). 
 
 ``` r
-install.packages("clccommunities")
+# Run this line once to install the devtools package
+# install.packages("devtools") 
+
+# Run this line once to install or update the clccommunities package
+devtools::install_github("context-dependent/clccommunities")
 ```
 
-## Example
+## Define Low Income and Rural Communities in Existing Data
 
-This is a basic example which shows you how to solve a common problem:
 
-```{r example}
+```{r example-existing}
+library(tidyverse)
 library(clccommunities)
 ## basic example code
+
+ontario_schools_plus <- ontario_schools %>% 
+  
+  mutate(
+    clc_low_income = clc_calculate_low_income(postal_code), 
+    clc_rural = clc_calculate_rural(postal_code)
+  )
+
+ontario_schools_plus %>% 
+  count(clc_low_income) %>% 
+  knitr::kable()
+
+ontario_schools_plus %>% 
+  count(clc_rural) %>% 
+  knitr::kable()
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+## Add All Columns from the Reference Dataset to Existing Data
 
-```{r cars}
-summary(cars)
+```{r example-reference}
+library(tidyverse)
+library(clccommunities)
+
+ontario_schools_community_data <- add_community_data(ontario_schools, postal_code)
+
+# Run this once to install the skimr package (not necessary, but helpful in general)
+# install.packages("skimr")
+
+skimr::skim_without_charts(ontario_schools_community_data)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+## Making a Simple Choropleth 
 
-You can also embed plots, for example:
+FSA polygons are available in the `fsa_shp` package data. 
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+```{r example-choropleth}
+# Run this once to install the sf ('Simple Features') package, 
+# which makes complex spatial operations relatively straightforward.
+# install.packages(sf)
+
+library(sf)
+library(tidyverse)
+library(clccommunities)
+
+schools_per_fsa <- ontario_schools %>% 
+  
+  add_community_data(postal_code) %>% 
+  group_by(fsa) %>% 
+  summarize(
+    n_schools = n()
+  )
+
+schools_per_fsa_shp <- fsa_shp %>% 
+  
+  left_join(fsa_data, by = "fsa") %>% 
+  filter(province == "Ontario") %>% 
+  left_join(schools_per_fsa, by = "fsa") %>% 
+  mutate(
+    n_schools = coalesce(n_schools, 0)
+  )
+
+n_schools_range <- range(schools_per_fsa_shp$n_schools)
+
+schools_per_fsa_shp %>% 
+  
+  ggplot() + 
+  geom_sf(aes(fill = n_schools), colour = NA) + 
+  scale_fill_viridis_b(
+    guide = guide_colorbar(
+      title = "# of Schools", 
+      barheight = 12, 
+      barwidth = 0.5
+    ), 
+    breaks = seq(0, 65, by = 10)
+  ) + 
+  theme_void() 
+  
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
+
+## Data Sources
+
+[June 2021 Ontario Public School Address File](https://data.ontario.ca/dataset/ontario-public-school-contact-information) provided by the Government of Ontario.
