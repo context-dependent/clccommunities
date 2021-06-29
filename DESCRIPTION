@@ -17,4 +17,10 @@ Suggests:
     tidyverse,
     dplyr,
     sf,
-    stringr
+    stringr,
+    roxygen2
+Depends: 
+    R (>= 2.10)
+Imports: 
+    magrittr,
+    rlang (>= 0.1.2)
