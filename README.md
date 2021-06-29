@@ -6,7 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of clccommunities is to …
+The goal of `clccommunities` is to make it easy to identify postal codes
+in low income or rural communities.
 
 ## Installation
 
@@ -194,4 +195,12 @@ schools_per_fsa_shp %>%
 
 [June 2021 Ontario Public School Address
 File](https://data.ontario.ca/dataset/ontario-public-school-contact-information)
-provided by the Government of Ontario.
+
+[2016 Census
+Profiles](https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/prof/details/download-telecharger/comp/page_dl-tc.cfm?Lang=E)
+
+[2016 Census Boundary
+Files](https://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/bound-limit-2016-eng.cfm)
+
+[2016 Geographic Attribute
+File](https://www12.statcan.gc.ca/census-recensement/2011/geo/ref/att-eng.cfm)
