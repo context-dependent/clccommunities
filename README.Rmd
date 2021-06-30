@@ -59,6 +59,9 @@ ontario_schools_plus %>%
 ## Add All Columns from the Reference Dataset to Existing Data
 
 ```{r example-reference}
+# Run this once to install the tidyverse family of packages.
+# install.packages("tidyverse")
+
 library(tidyverse)
 library(clccommunities)
 
@@ -72,12 +75,13 @@ skimr::skim_without_charts(ontario_schools_community_data)
 
 ## Making a Simple Choropleth 
 
-FSA polygons are available in the `fsa_shp` package data. 
+FSA polygons are available in the `fsa_shp` package data.
+The initial installation process for the `sf` 
+([Simple Features](https://r-spatial.github.io/sf/)) package is 
+slightly more involved than the process for the other packages used in these examples.
+You will need to first install the geospatial libraries that `sf` interfaces with on your computer. 
 
 ```{r example-choropleth}
-# Run this once to install the sf ('Simple Features') package, 
-# which makes complex spatial operations relatively straightforward.
-# install.packages(sf)
 
 library(sf)
 library(tidyverse)
