@@ -8,7 +8,7 @@ Authors@R:
            email = "first.last@example.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
-License: MIT + file LICENSE
+License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -16,7 +16,7 @@ RoxygenNote: 7.1.1
 Suggests: 
     sf (>= 0.9.8),
     stringr (>= 1.4.0),
-    roxygen2
+    roxygen2,
     dplyr (>= 1.0.6),
     tibble (>= 3.1.1),
     roxygen2 (>= 7.1.1)
