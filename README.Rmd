@@ -122,6 +122,16 @@ schools_per_fsa_shp %>%
   
 ```
 
+## Using package data outside of R
+
+To use these data outside of the R environment, write the `fsa_data` object to a 
+csv file, which you can open in Excel, Google Sheets, or any other program. 
+```{r export}
+library(readr)
+library(clccommunities)
+
+write_csv(fsa_data, "path/to/destination-folder/file-name-of-your-choice.csv")
+```
 
 ## Data Sources
 
