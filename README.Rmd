@@ -94,7 +94,7 @@ schools_per_fsa <- ontario_schools %>%
   summarize(
     n_schools = n()
   )
-
+  
 schools_per_fsa_shp <- fsa_shp %>% 
   
   left_join(fsa_data, by = "fsa") %>% 
