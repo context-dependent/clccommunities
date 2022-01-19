@@ -8,5 +8,10 @@ fsa_data <- fsa_shp %>%
     as.data.frame() %>% 
     tibble::as_tibble()
 
+fsa_shp <- fsa_shp %>%
+    dplyr::select(
+        fsa
+    )
+
 usethis::use_data(fsa_data, overwrite = TRUE)
 usethis::use_data(fsa_shp, overwrite = TRUE)
