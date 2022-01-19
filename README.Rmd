@@ -126,7 +126,7 @@ schools_per_fsa_shp %>%
 
 To use these data outside of the R environment, write the `fsa_data` object to a 
 csv file, which you can open in Excel, Google Sheets, or any other program. 
-```{r export}
+```{r export, eval=FALSE}
 library(readr)
 library(clccommunities)
 
